@@ -1,0 +1,83 @@
+mixin AdminAuthority
+  p.tac
+    span(v-if='type === 0') 正在获取用户操作权限，请稍候...
+    span(v-else-if='type === 1') 您未登录，请先登录
+    span(v-else-if='type === 2') 很抱歉，您的账号无权限使用该功能
+
+//- 表格筛选功能
+mixin TableFilter(placeholder)
+  el-pagination.pull-right(
+    :page-size='pageSize'
+    :page-sizes='pageSizes'
+    layout='sizes, prev, pager, next'
+    @current-change='handleChangePage'
+    @size-change='handleSizeChange'
+    :total='total'
+  )
+  .pull-right
+    el-input(
+      placeholder=`${placeholder}`
+      icon='search'
+      v-model='keyword',
+      :on-icon-click='handleSearch'
+      @keyup.enter.native='handleSearch'
+      :class='$style.keyword'
+    )
+
+//- 可编辑的表格（有修改，增加）
+mixin EditTable
+  el-table(
+    :data='items'
+    v-if='items'
+  )
+    el-table-column(
+      v-for='key in keys'
+      :label='key.name'
+      :key='key.name'
+    )
+      template(
+        scope='scope'
+      )
+        span(v-if='key.readonly') {{scope.row[key.name]}}
+        el-input(
+          v-else-if='!scope.row._id && dataToAdd'
+          :type='key.type || "input"'
+          v-model='dataToAdd[key.name]'
+        )
+        el-input(
+          v-model='dataToUpdate[key.name]'
+          :type='key.type || "input"'
+          v-else-if='scope.$index === editIndex'
+        )
+        span(v-else) {{scope.row[key.name]}}
+    el-table-column(
+      label='OP'
+      width='80'
+    )
+      template(
+        scope='scope'
+      )
+        el-button(
+          v-if='!scope.row._id && !dataToAdd'
+          type='text'
+          size='small'
+          @click='handleAdd'
+        ) Add
+        el-button(
+          v-else-if='!scope.row._id'
+          type='text'
+          size='small'
+          @click='handleSave'
+        ) Save
+        el-button(
+          v-else-if='scope.$index !== editIndex'
+          @click='handleEdit(scope.$index)'
+          type='text'
+          size='small'
+        ) Edit 
+        el-button(
+          v-else
+          type='text'
+          size='small'
+          @click='handleUpdate(scope.$index)'
+        ) Update 

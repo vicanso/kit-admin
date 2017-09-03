@@ -1,0 +1,61 @@
+@import './variables.sss'
+
+*
+  box-sizing: border-box
+  &:before, &:after
+    box-sizing: border-box
+
+.clearfix:before, .clearfix:after
+  display: table
+  content: " "
+
+.clearfix:after
+  clear: both
+
+body, html
+  margin: 0
+  font-family: "Open Sans", "Helvetica Neue", Arial, Verdana, sans-serif
+  -moz-osx-font-smoothing: grayscale
+  -webkit-font-smoothing: antialiased
+  background-color: $COLOR_WHITE
+
+.router-fade-enter-active, .router-fade-leave-active
+  transition: opacity .3s
+.router-fade-enter, .router-fade-leave-active
+  opacity: 0
+
+.tac
+  text-align: center
+.tar
+  text-align: right
+.bold
+  font-weight: 600
+.block
+  display: block
+.pull-right
+  float: right
+.font14
+  font-size: 14px
+.font15
+  font-size: 15px
+.font16
+  font-size: 16px
+.font18
+  font-size: 18px
+
+a
+  text-decoration: none
+  color: $COLOR_BLUE
+
+.content-wrapper
+  margin-left: $MAIN_NAV_WIDTH
+
+.submit-form
+  min-height: 300px
+  max-width: 400px
+  margin: auto
+  button.block
+    width: 100%
+
+.el-loading-mask
+  background-color: transparent
